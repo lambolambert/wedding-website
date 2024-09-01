@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <meta name="description" content="Join us for our special day. RSVP and get all the details about our wedding celebration.">
     <meta name="keywords" content="wedding, RSVP, celebration, [Your Names]">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
         :root {
             --primary-color: #3a1f5d;
@@ -417,6 +419,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="section">
+            <h2>Location</h2>
+            <div id="map" style="width: 100%; height: 400px;"></div>
+            <p>Address: Oxford Town Hall, St. Aldate's, Oxford, OX1 1BX</p>
+        </div>
     </div>
 
     <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
@@ -594,6 +602,22 @@
         sections.forEach(section => {
             observer.observe(section);
         });
+
+        // Map initialization
+        function initMap() {
+            const map = L.map('map').setView([51.7515, -1.2573], 16); // Replace with your venue's coordinates
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            L.marker([51.7515, -1.2573]).addTo(map) // Replace with your venue's coordinates
+                .bindPopup('Our Wedding Venue')
+                .openPopup();
+        }
+
+        // Call initMap when the page loads
+        window.onload = initMap;
     </script>
 </body>
 </html>
