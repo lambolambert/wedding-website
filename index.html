@@ -302,6 +302,31 @@
         .back-to-top.visible {
             opacity: 1;
         }
+
+        .guest-details {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .guest-details label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .guest-details input[type="text"],
+        .guest-details select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .guest-other-preference {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -432,9 +457,9 @@
                 <input type="number" id="guests" name="guests" min="1" max="10" required>
 
                 <div class="section" id="guest-preferences-container">
-                    <h3>Guest Preferences</h3>
+                    <h3>Guest Details</h3>
                     <div id="guest-preferences">
-                        <!-- Dynamic guest preference fields will be inserted here -->
+                        <!-- Dynamic guest name and preference fields will be inserted here -->
                     </div>
                 </div>
 
@@ -601,14 +626,22 @@
                 return false;
             }
 
-            // Validate guest preferences
-            const guestSelects = document.querySelectorAll('.guest-food-select');
-            for (let i = 0; i < guestSelects.length; i++) {
-                const select = guestSelects[i];
+            // Validate guest names and preferences
+            const guestDivs = document.querySelectorAll('.guest-details');
+            for (let i = 0; i < guestDivs.length; i++) {
+                const nameInput = guestDivs[i].querySelector(`input[name^="guest_"][name$="_name"]`);
+                const select = guestDivs[i].querySelector('.guest-food-select');
+                
+                if (nameInput.value.trim() === '') {
+                    showErrorMessage(`Please enter a name for Guest ${i + 1}.`);
+                    return false;
+                }
+                
                 if (select.value === '') {
                     showErrorMessage(`Please select a food preference for Guest ${i + 1}.`);
                     return false;
                 }
+                
                 if (select.value === 'Other') {
                     const otherInput = select.nextElementSibling;
                     if (otherInput.value.trim() === '') {
@@ -778,11 +811,27 @@
             guestPreferencesDiv.innerHTML = ''; // Clear existing fields
             for (let i = 1; i <= count; i++) {
                 const guestDiv = document.createElement('div');
-                guestDiv.classList.add('guest-preference');
+                guestDiv.classList.add('guest-details');
 
-                const guestLabel = document.createElement('label');
-                guestLabel.setAttribute('for', `guest_${i}_food_preference`);
-                guestLabel.textContent = `Guest ${i} Food Preference:`;
+                // Create name input
+                const nameLabel = document.createElement('label');
+                nameLabel.setAttribute('for', `guest_${i}_name`);
+                nameLabel.textContent = `Guest ${i} Name:`;
+                
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.name = `guest_${i}_name`;
+                nameInput.id = `guest_${i}_name`;
+                nameInput.required = true;
+                nameInput.placeholder = 'Enter guest name';
+
+                guestDiv.appendChild(nameLabel);
+                guestDiv.appendChild(nameInput);
+
+                // Create food preference dropdown
+                const prefLabel = document.createElement('label');
+                prefLabel.setAttribute('for', `guest_${i}_food_preference`);
+                prefLabel.textContent = `Guest ${i} Food Preference:`;
 
                 const select = document.createElement('select');
                 select.name = `guest_${i}_food_preference`;
@@ -807,7 +856,7 @@
                     select.appendChild(option);
                 });
 
-                guestDiv.appendChild(guestLabel);
+                guestDiv.appendChild(prefLabel);
                 guestDiv.appendChild(select);
 
                 // Create input for "Other" specification
