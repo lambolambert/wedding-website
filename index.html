@@ -303,20 +303,20 @@
             opacity: 1;
         }
 
-        .guest-details {
+        .person-details {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
-        .guest-details label {
+        .person-details label {
             display: block;
             margin-bottom: 5px;
         }
 
-        .guest-details input[type="text"],
-        .guest-details select {
+        .person-details input[type="text"],
+        .person-details select {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -324,7 +324,7 @@
             border-radius: 4px;
         }
 
-        .guest-other-preference {
+        .person-other-preference {
             margin-top: 5px;
         }
     </style>
@@ -453,13 +453,13 @@
                     <option value="no">No, I cannot attend</option>
                 </select>
 
-                <label for="guests">Number of Guests</label>
+                <label for="guests">Number of People</label>
                 <input type="number" id="guests" name="guests" min="1" max="10" required>
 
                 <div class="section" id="guest-preferences-container">
-                    <h3>Guest Details</h3>
+                    <h3>People Details</h3>
                     <div id="guest-preferences">
-                        <!-- Dynamic guest name and preference fields will be inserted here -->
+                        <!-- Dynamic person name and preference fields will be inserted here -->
                     </div>
                 </div>
 
@@ -626,26 +626,26 @@
                 return false;
             }
 
-            // Validate guest names and preferences
-            const guestDivs = document.querySelectorAll('.guest-details');
-            for (let i = 0; i < guestDivs.length; i++) {
-                const nameInput = guestDivs[i].querySelector(`input[name^="guest_"][name$="_name"]`);
-                const select = guestDivs[i].querySelector('.guest-food-select');
+            // Validate all person names and preferences
+            const personDivs = document.querySelectorAll('.person-details');
+            for (let i = 0; i < personDivs.length; i++) {
+                const nameInput = personDivs[i].querySelector(`input[name^="person_"][name$="_name"]`);
+                const select = personDivs[i].querySelector('.person-food-select');
                 
                 if (nameInput.value.trim() === '') {
-                    showErrorMessage(`Please enter a name for Guest ${i + 1}.`);
+                    showErrorMessage(`Please enter a name for Person ${i + 1}.`);
                     return false;
                 }
                 
                 if (select.value === '') {
-                    showErrorMessage(`Please select a food preference for Guest ${i + 1}.`);
+                    showErrorMessage(`Please select a food preference for Person ${i + 1}.`);
                     return false;
                 }
                 
                 if (select.value === 'Other') {
                     const otherInput = select.nextElementSibling;
                     if (otherInput.value.trim() === '') {
-                        showErrorMessage(`Please specify the food preference for Guest ${i + 1}.`);
+                        showErrorMessage(`Please specify the food preference for Person ${i + 1}.`);
                         return false;
                     }
                 }
@@ -800,43 +800,43 @@
             const numberOfGuests = parseInt(this.value, 10);
             if (numberOfGuests > 0) {
                 guestPreferencesContainer.style.display = 'block';
-                generateGuestPreferenceFields(numberOfGuests); // Generate for all guests
+                generatePersonPreferenceFields(numberOfGuests); // Generate for all guests
             } else {
                 guestPreferencesContainer.style.display = 'none';
                 guestPreferencesDiv.innerHTML = '';
             }
         });
 
-        function generateGuestPreferenceFields(count) {
+        function generatePersonPreferenceFields(count) {
             guestPreferencesDiv.innerHTML = ''; // Clear existing fields
             for (let i = 1; i <= count; i++) {
-                const guestDiv = document.createElement('div');
-                guestDiv.classList.add('guest-details');
+                const personDiv = document.createElement('div');
+                personDiv.classList.add('person-details');
 
                 // Create name input
                 const nameLabel = document.createElement('label');
-                nameLabel.setAttribute('for', `guest_${i}_name`);
-                nameLabel.textContent = `Guest ${i} Name:`;
+                nameLabel.setAttribute('for', `person_${i}_name`);
+                nameLabel.textContent = `Person ${i} Name:`;
                 
                 const nameInput = document.createElement('input');
                 nameInput.type = 'text';
-                nameInput.name = `guest_${i}_name`;
-                nameInput.id = `guest_${i}_name`;
+                nameInput.name = `person_${i}_name`;
+                nameInput.id = `person_${i}_name`;
                 nameInput.required = true;
-                nameInput.placeholder = 'Enter guest name';
+                nameInput.placeholder = 'Enter name';
 
-                guestDiv.appendChild(nameLabel);
-                guestDiv.appendChild(nameInput);
+                personDiv.appendChild(nameLabel);
+                personDiv.appendChild(nameInput);
 
                 // Create food preference dropdown
                 const prefLabel = document.createElement('label');
-                prefLabel.setAttribute('for', `guest_${i}_food_preference`);
-                prefLabel.textContent = `Guest ${i} Food Preference:`;
+                prefLabel.setAttribute('for', `person_${i}_food_preference`);
+                prefLabel.textContent = `Person ${i} Food Preference:`;
 
                 const select = document.createElement('select');
-                select.name = `guest_${i}_food_preference`;
-                select.id = `guest_${i}_food_preference`;
-                select.classList.add('guest-food-select');
+                select.name = `person_${i}_food_preference`;
+                select.id = `person_${i}_food_preference`;
+                select.classList.add('person-food-select');
                 select.required = true;
 
                 const options = [
@@ -856,15 +856,15 @@
                     select.appendChild(option);
                 });
 
-                guestDiv.appendChild(prefLabel);
-                guestDiv.appendChild(select);
+                personDiv.appendChild(prefLabel);
+                personDiv.appendChild(select);
 
                 // Create input for "Other" specification
                 const otherInput = document.createElement('input');
                 otherInput.type = 'text';
-                otherInput.name = `guest_${i}_other_preference`;
+                otherInput.name = `person_${i}_other_preference`;
                 otherInput.placeholder = 'Please specify your allergy or preference';
-                otherInput.classList.add('guest-other-preference');
+                otherInput.classList.add('person-other-preference');
                 otherInput.style.display = 'none';
                 otherInput.required = false;
 
@@ -880,9 +880,9 @@
                     }
                 });
 
-                guestDiv.appendChild(otherInput);
+                personDiv.appendChild(otherInput);
 
-                guestPreferencesDiv.appendChild(guestDiv);
+                guestPreferencesDiv.appendChild(personDiv);
             }
         }
 
