@@ -431,34 +431,7 @@
                 <label for="guests">Number of Guests</label>
                 <input type="number" id="guests" name="guests" min="1" max="10" required>
 
-                <fieldset>
-                    <legend>Food Preferences</legend>
-                    <div class="checkbox-group">
-                        <label>
-                            <input type="checkbox" name="food[]" value="Vegan"> Vegan
-                        </label>
-                        <label>
-                            <input type="checkbox" name="food[]" value="Vegetarian"> Vegetarian
-                        </label>
-                        <label>
-                            <input type="checkbox" name="food[]" value="Gluten Free"> Gluten Free
-                        </label>
-                        <label>
-                            <input type="checkbox" name="food[]" value="Halal"> Halal
-                        </label>
-                        <label>
-                            <input type="checkbox" id="other-food" name="food[]" value="Other"> Other - please specify
-                        </label>
-                        <div id="other-food-specify" style="display: none; margin-top: 10px;">
-                            <input type="text" id="other-preference" name="other_preference" placeholder="Please specify your allergy or preference">
-                        </div>
-                        <label>
-                            <input type="checkbox" name="food[]" value="No requirements"> No requirements
-                        </label>
-                    </div>
-                </fieldset>
-
-                <div class="section" id="guest-preferences-container" style="display: none; margin-top: 20px;">
+                <div class="section" id="guest-preferences-container">
                     <h3>Guest Preferences</h3>
                     <div id="guest-preferences">
                         <!-- Dynamic guest preference fields will be inserted here -->
@@ -610,8 +583,6 @@
             const email = form.querySelector('#email').value.trim();
             const attending = form.querySelector('#attending').value;
             const guests = parseInt(form.querySelector('#guests').value, 10);
-            const otherFoodChecked = form.querySelector('#other-food').checked;
-            const otherPreference = form.querySelector('#other-preference').value.trim();
 
             if (name === '') {
                 showErrorMessage('Please enter your name.');
@@ -629,10 +600,6 @@
                 showErrorMessage('Please enter a valid number of guests.');
                 return false;
             }
-            if (otherFoodChecked && otherPreference === '') {
-                showErrorMessage('Please specify your allergy or preference for "Other".');
-                return false;
-            }
 
             // Validate guest preferences
             const guestSelects = document.querySelectorAll('.guest-food-select');
@@ -643,7 +610,7 @@
                     return false;
                 }
                 if (select.value === 'Other') {
-                    const otherInput = document.querySelector(`.guest-other-preference[data-guest="${i + 1}"]`);
+                    const otherInput = select.nextElementSibling;
                     if (otherInput.value.trim() === '') {
                         showErrorMessage(`Please specify the food preference for Guest ${i + 1}.`);
                         return false;
@@ -791,28 +758,6 @@
         // Call initMap when the page loads
         window.onload = initMap;
 
-        // Show/hide the "Other" specification field for main guest
-        document.getElementById('other-food').addEventListener('change', function() {
-            if (this.checked) {
-                showOtherPreference();
-            } else {
-                hideOtherPreference();
-            }
-        });
-
-        function showOtherPreference() {
-            const otherField = document.getElementById('other-food-specify');
-            otherField.style.display = 'block';
-            document.getElementById('other-preference').setAttribute('required', 'required');
-        }
-
-        function hideOtherPreference() {
-            const otherField = document.getElementById('other-food-specify');
-            otherField.style.display = 'none';
-            document.getElementById('other-preference').removeAttribute('required');
-            document.getElementById('other-preference').value = '';
-        }
-
         // Handle dynamic guest preferences based on the number of guests
         const guestsInput = document.getElementById('guests');
         const guestPreferencesContainer = document.getElementById('guest-preferences-container');
@@ -820,9 +765,9 @@
 
         guestsInput.addEventListener('input', function() {
             const numberOfGuests = parseInt(this.value, 10);
-            if (numberOfGuests > 1) {
+            if (numberOfGuests > 0) {
                 guestPreferencesContainer.style.display = 'block';
-                generateGuestPreferenceFields(numberOfGuests - 1); // Exclude the main guest
+                generateGuestPreferenceFields(numberOfGuests); // Generate for all guests
             } else {
                 guestPreferencesContainer.style.display = 'none';
                 guestPreferencesDiv.innerHTML = '';
