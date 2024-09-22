@@ -414,7 +414,7 @@
 
         <div class="section">
             <h2>RSVP</h2>
-            <form id="rsvp-form" action="https://formspree.io/f/your_form_id_here" method="POST">
+            <form id="rsvp-form" action="https://formspree.io/f/mblrjqnp" method="POST">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" required>
 
@@ -428,18 +428,42 @@
                     <option value="no">No, I cannot attend</option>
                 </select>
 
-                <label for="guests">Number of guests</label>
-                <input type="number" id="guests" name="guests" min="1" max="10">
+                <label for="guests">Number of Guests</label>
+                <input type="number" id="guests" name="guests" min="1" max="10" required>
 
                 <fieldset>
                     <legend>Food Preferences</legend>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="food[]" value="chicken"> Grilled Chicken</label>
-                        <label><input type="checkbox" name="food[]" value="salmon"> Salmon Fillet</label>
-                        <label><input type="checkbox" name="food[]" value="vegetarian"> Vegetable Lasagna</label>
-                        <label><input type="checkbox" name="food[]" value="vegan"> Vegan Stir-fry</label>
+                        <label>
+                            <input type="checkbox" name="food[]" value="Vegan"> Vegan
+                        </label>
+                        <label>
+                            <input type="checkbox" name="food[]" value="Vegetarian"> Vegetarian
+                        </label>
+                        <label>
+                            <input type="checkbox" name="food[]" value="Gluten Free"> Gluten Free
+                        </label>
+                        <label>
+                            <input type="checkbox" name="food[]" value="Halal"> Halal
+                        </label>
+                        <label>
+                            <input type="checkbox" id="other-food" name="food[]" value="Other"> Other - please specify
+                        </label>
+                        <div id="other-food-specify" style="display: none; margin-top: 10px;">
+                            <input type="text" id="other-preference" name="other_preference" placeholder="Please specify your allergy or preference">
+                        </div>
+                        <label>
+                            <input type="checkbox" name="food[]" value="No requirements"> No requirements
+                        </label>
                     </div>
                 </fieldset>
+
+                <div class="section" id="guest-preferences-container" style="display: none; margin-top: 20px;">
+                    <h3>Guest Preferences</h3>
+                    <div id="guest-preferences">
+                        <!-- Dynamic guest preference fields will be inserted here -->
+                    </div>
+                </div>
 
                 <label for="message">Message (Optional)</label>
                 <textarea id="message" name="message" rows="4"></textarea>
@@ -585,6 +609,9 @@
             const name = form.querySelector('#name').value.trim();
             const email = form.querySelector('#email').value.trim();
             const attending = form.querySelector('#attending').value;
+            const guests = parseInt(form.querySelector('#guests').value, 10);
+            const otherFoodChecked = form.querySelector('#other-food').checked;
+            const otherPreference = form.querySelector('#other-preference').value.trim();
 
             if (name === '') {
                 showErrorMessage('Please enter your name.');
@@ -597,6 +624,31 @@
             if (attending === '') {
                 showErrorMessage('Please select whether you are attending.');
                 return false;
+            }
+            if (isNaN(guests) || guests < 1) {
+                showErrorMessage('Please enter a valid number of guests.');
+                return false;
+            }
+            if (otherFoodChecked && otherPreference === '') {
+                showErrorMessage('Please specify your allergy or preference for "Other".');
+                return false;
+            }
+
+            // Validate guest preferences
+            const guestSelects = document.querySelectorAll('.guest-food-select');
+            for (let i = 0; i < guestSelects.length; i++) {
+                const select = guestSelects[i];
+                if (select.value === '') {
+                    showErrorMessage(`Please select a food preference for Guest ${i + 1}.`);
+                    return false;
+                }
+                if (select.value === 'Other') {
+                    const otherInput = document.querySelector(`.guest-other-preference[data-guest="${i + 1}"]`);
+                    if (otherInput.value.trim() === '') {
+                        showErrorMessage(`Please specify the food preference for Guest ${i + 1}.`);
+                        return false;
+                    }
+                }
             }
 
             return true;
@@ -738,6 +790,112 @@
 
         // Call initMap when the page loads
         window.onload = initMap;
+
+        // Show/hide the "Other" specification field for main guest
+        document.getElementById('other-food').addEventListener('change', function() {
+            if (this.checked) {
+                showOtherPreference();
+            } else {
+                hideOtherPreference();
+            }
+        });
+
+        function showOtherPreference() {
+            const otherField = document.getElementById('other-food-specify');
+            otherField.style.display = 'block';
+            document.getElementById('other-preference').setAttribute('required', 'required');
+        }
+
+        function hideOtherPreference() {
+            const otherField = document.getElementById('other-food-specify');
+            otherField.style.display = 'none';
+            document.getElementById('other-preference').removeAttribute('required');
+            document.getElementById('other-preference').value = '';
+        }
+
+        // Handle dynamic guest preferences based on the number of guests
+        const guestsInput = document.getElementById('guests');
+        const guestPreferencesContainer = document.getElementById('guest-preferences-container');
+        const guestPreferencesDiv = document.getElementById('guest-preferences');
+
+        guestsInput.addEventListener('input', function() {
+            const numberOfGuests = parseInt(this.value, 10);
+            if (numberOfGuests > 1) {
+                guestPreferencesContainer.style.display = 'block';
+                generateGuestPreferenceFields(numberOfGuests - 1); // Exclude the main guest
+            } else {
+                guestPreferencesContainer.style.display = 'none';
+                guestPreferencesDiv.innerHTML = '';
+            }
+        });
+
+        function generateGuestPreferenceFields(count) {
+            guestPreferencesDiv.innerHTML = ''; // Clear existing fields
+            for (let i = 1; i <= count; i++) {
+                const guestDiv = document.createElement('div');
+                guestDiv.classList.add('guest-preference');
+
+                const guestLabel = document.createElement('label');
+                guestLabel.setAttribute('for', `guest_${i}_food_preference`);
+                guestLabel.textContent = `Guest ${i} Food Preference:`;
+
+                const select = document.createElement('select');
+                select.name = `guest_${i}_food_preference`;
+                select.id = `guest_${i}_food_preference`;
+                select.classList.add('guest-food-select');
+                select.required = true;
+
+                const options = [
+                    { value: '', text: 'Select an option' },
+                    { value: 'Vegan', text: 'Vegan' },
+                    { value: 'Vegetarian', text: 'Vegetarian' },
+                    { value: 'Gluten Free', text: 'Gluten Free' },
+                    { value: 'Halal', text: 'Halal' },
+                    { value: 'Other', text: 'Other - please specify' },
+                    { value: 'No requirements', text: 'No requirements' }
+                ];
+
+                options.forEach(optionData => {
+                    const option = document.createElement('option');
+                    option.value = optionData.value;
+                    option.textContent = optionData.text;
+                    select.appendChild(option);
+                });
+
+                guestDiv.appendChild(guestLabel);
+                guestDiv.appendChild(select);
+
+                // Create input for "Other" specification
+                const otherInput = document.createElement('input');
+                otherInput.type = 'text';
+                otherInput.name = `guest_${i}_other_preference`;
+                otherInput.placeholder = 'Please specify your allergy or preference';
+                otherInput.classList.add('guest-other-preference');
+                otherInput.style.display = 'none';
+                otherInput.required = false;
+
+                // Event listener to show/hide the input based on selection
+                select.addEventListener('change', function() {
+                    if (this.value === 'Other') {
+                        otherInput.style.display = 'block';
+                        otherInput.setAttribute('required', 'required');
+                    } else {
+                        otherInput.style.display = 'none';
+                        otherInput.removeAttribute('required');
+                        otherInput.value = '';
+                    }
+                });
+
+                guestDiv.appendChild(otherInput);
+
+                guestPreferencesDiv.appendChild(guestDiv);
+            }
+        }
+
+        function hideGuestPreferences() {
+            guestPreferencesContainer.style.display = 'none';
+            guestPreferencesDiv.innerHTML = '';
+        }
     </script>
 </body>
 </html>
