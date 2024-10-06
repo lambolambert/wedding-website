@@ -11,11 +11,11 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
         :root {
-            --primary-color: #3a1f5d;
-            --secondary-color: #c7b8e0;
-            --accent-color: #f9a826;
+            --primary-color: #198c49;
+            --secondary-color: #e6f3ec;
+            --accent-color: #ffd700;
             --text-color: #333333;
-            --background-color: #f9f7fd;
+            --background-color: #ffffff;
             --white: #ffffff;
         }
         
@@ -30,7 +30,6 @@
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
-            background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0l12 12-12 12L0 12z' fill='%23c7b8e0' fill-opacity='0.1'/%3E%3C/svg%3E");
         }
         
         .container {
@@ -41,15 +40,19 @@
         
         header {
             text-align: center;
-            padding: 60px 0;
-            background-color: var(--primary-color);
+            padding: 30px 0; /* Reduced from 60px to 30px */
+            background-color: #000000;
             color: var(--white);
         }
         
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5em;
-            margin-bottom: 20px;
+            font-size: 2.8em; /* Reduced from 3.5em to 2.8em */
+            margin-bottom: 10px; /* Reduced from 20px to 10px */
+        }
+        
+        header p {
+            font-size: 1.2em; /* Added to adjust the subtitle size */
         }
         
         h2 {
@@ -175,7 +178,7 @@
         }
         
         button {
-            background-color: var(--accent-color);
+            background-color: var(--primary-color);
             color: var(--white);
             padding: 12px 24px;
             border: none;
@@ -186,7 +189,7 @@
         }
         
         button:hover {
-            background-color: var(--primary-color);
+            background-color: #146c3a;
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -331,8 +334,9 @@
 </head>
 <body>
     <header>
-        <h1>Our Wedding</h1>
-        <p>Join us in celebration</p>
+        <h1>James & Liz</h1>
+        <p>Invite you to celebrate our wedding</p>
+        <p>25th January 2025</p>
     </header>
 
     <div class="container">
@@ -440,9 +444,6 @@
         <div class="section">
             <h2>RSVP</h2>
             <form id="rsvp-form" action="https://formspree.io/f/mblrjqnp" method="POST">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
-
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
 
@@ -453,11 +454,11 @@
                     <option value="no">No, I cannot attend</option>
                 </select>
 
-                <label for="guests">Number of People</label>
+                <label for="guests">How many people are you RSVP-ing for?</label>
                 <input type="number" id="guests" name="guests" min="1" max="10" required>
 
                 <div class="section" id="guest-preferences-container">
-                    <h3>People Details</h3>
+                    <h3>Guest Details</h3>
                     <div id="guest-preferences">
                         <!-- Dynamic person name and preference fields will be inserted here -->
                     </div>
@@ -474,23 +475,14 @@
             <h2>Wedding Details</h2>
             <div class="info-grid">
                 <div class="info-item">
-                    <h3>Gift Information</h3>
-                    <p>Your presence is our present. If you wish to honor us with a gift, please consider donating to:</p>
-                    <ul>
-                        <li><a href="#">Local Animal Shelter</a></li>
-                        <li><a href="#">Environmental Conservation Fund</a></li>
-                        <li><a href="#">Children's Education Initiative</a></li>
-                    </ul>
-                </div>
-                <div class="info-item">
                     <h3>Wedding Day Schedule</h3>
                     <ul>
-                        <li>3:00 PM - Guests Arrive</li>
-                        <li>3:30 PM - Ceremony Begins</li>
-                        <li>4:00 PM - Cocktail Hour</li>
-                        <li>5:00 PM - Reception & Dinner</li>
-                        <li>7:00 PM - Dancing</li>
-                        <li>11:00 PM - Send-off</li>
+                        <li>2:30 PM - Arrival</li>
+                        <li>3:00 PM - Ceremony Begins</li>
+                        <li>5:00 PM - Dinner</li>
+                        <li>7:30 PM - Ceilidh</li>
+                        <li>9:30 PM - Disco</li>
+                        <li>12:00 PM - Time for bed</li>
                     </ul>
                 </div>
             </div>
@@ -516,7 +508,9 @@
                 <!-- Coffee Shops -->
                 <h3>Coffee Shops</h3>
                 <ul>
-                    <li><a href="https://www.themissingbean.co.uk/pages/turl-street-coffee-shop?srsltid=AfmBOorshtT4Pr2po7X49faf1Xh8AqzRaLB47VU_FKscVKsZh5IHShSn">Missing Bean</a> - An Oxford classic</li>
+                    <li><a href="https://www.themissingbean.co.uk/pages/turl-street-coffee-shop?srsltid=AfmBOorshtT4Pr2po7X49faf1Xh8AqzRaLB47VU_FKscVKsZh5IHShSn">Missing Bean</a> - an Oxford classic</li>
+                    <li><a href="https://www.google.com/maps/place/Jericho+Coffee+Traders/@51.7523586,-1.2542668,15z/data=!4m2!3m1!1s0x0:0xf3eec8e4d8e8dd49?sa=X&ved=1t:2428&ictx=111">Jericho Coffee Traders</a> - Cosy Vibes</li>
+                    <li><a href="https://www.google.com/maps/place/Society+Caf%C3%A9/@51.7534895,-1.2593433,15z/data=!4m6!3m5!1s0x4876c6a59be5c8e5:0xa172c383e4e9f944!8m2!3d51.7534895!4d-1.2593433!16s%2Fg%2F11cm3px8rw?sa=X&ved=1t:2428&ictx=111&entry=tts&g_ep=EgoyMDI0MDkxOC4xKgBIAVAD">Society Café</a> - James recommends the salted caramel brownie</li>
                 </ul>
                 
                 <!-- Food Recommendations -->
@@ -524,7 +518,7 @@
                 <ul>
                     <li><a href="https://www.zaatarbake.co.uk">Za'atar Bake</a> - Lebanese all day dining. Amazing food</li>
                     <li><a href="https://www.thegardenersarms.com/">The Gardner's Arms</a> - Our first date location - fully vegan/vegetarian pub food</li>
-                    <li><a href="https://www.google.com/maps/place/LB's+Lebanese+Cuisine/@51.7826852,-1.2714318,16z/data=!4m7!3m6!1s0x4876c413f5da589f:0xdabde8db2a82031b!8m2!3d51.7778885!4d-1.2652892!15sCghsZWJhbmVzZVoKIghsZWJhbmVzZZIBE2xlYmFuZXNlX3Jlc3RhdXJhbnSaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVUkNOR0p5YkdWbkVBReABAA!16s%2Fg%2F1tgw9dlb?entry=tts&g_ep=EgoyMDI0MDkxOC4xKgBIAVAD">LB's</a> - North Oxford Lebanese lunch food</li>
+                    <li><a href="https://www.google.com/maps/place/LB's+Lebanese+Cuisine/@51.7826852,-1.2714318,16z/data=!4m7!3m6!1s0x4876c413f5da589f:0x5abde8db2a82031b!8m2!3d51.7778885!4d-1.2652892!15sCghsZWJhbmVzZVoKIghsZWJhbmVzZZIBE2xlYmFuZXNlX3Jlc3RhdXJhbnSaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVUkNOR0p5YkdWbkVBReABAA!16s%2Fg%2F1tgw9dlb?entry=tts&g_ep=EgoyMDI0MDkxOC4xKgBIAVAD">LB's</a> - North Oxford Lebanese lunch food</li>
                     <li><a href="https://www.google.com/maps/place/Spiced+Roots+Restaurant/@51.7489195,-1.2437685,17z/data=!3m1!4b1!4m6!3m5!1s0x4876c14dc6fbf037:0x3b791d556427d5d0!8m2!3d51.7489162!4d-1.2411936!16s%2Fg%2F11cmqt5kq8?entry=tts&g_ep=EgoyMDI0MDkxOC4xKgBIAVAD">Spiced Roots</a> - Caribbean</li>
                     <li><a href="https://www.google.com/maps/place/The+White+Rabbit/@51.7544594,-1.2791746,15z/data=!3m1!4b1!4m6!3m5!1s0x4876c6af823e8251:0xec5c61f5d31b0dca!8m2!3d51.7544476!4d-1.2607207!16s%2Fg%2F11_s78_f5?entry=tts&g_ep=EgoyMDI0MDkxOC4xKgBIAVAD">White Rabbit</a> - For pizza and beer</li>
                 </ul>
@@ -583,15 +577,10 @@
 
         function validateForm() {
             const form = document.getElementById('rsvp-form');
-            const name = form.querySelector('#name').value.trim();
             const email = form.querySelector('#email').value.trim();
             const attending = form.querySelector('#attending').value;
             const guests = parseInt(form.querySelector('#guests').value, 10);
 
-            if (name === '') {
-                showErrorMessage('Please enter your name.');
-                return false;
-            }
             if (email === '' || !isValidEmail(email)) {
                 showErrorMessage('Please enter a valid email address.');
                 return false;
@@ -612,19 +601,19 @@
                 const select = personDivs[i].querySelector('.person-food-select');
                 
                 if (nameInput.value.trim() === '') {
-                    showErrorMessage(`Please enter a name for Person ${i + 1}.`);
+                    showErrorMessage(`Please enter a name for Guest ${i + 1}.`);
                     return false;
                 }
                 
                 if (select.value === '') {
-                    showErrorMessage(`Please select a food preference for Person ${i + 1}.`);
+                    showErrorMessage(`Please select a food preference for Guest ${i + 1}.`);
                     return false;
                 }
                 
                 if (select.value === 'Other') {
                     const otherInput = select.nextElementSibling;
                     if (otherInput.value.trim() === '') {
-                        showErrorMessage(`Please specify the food preference for Person ${i + 1}.`);
+                        showErrorMessage(`Please specify the food preference for Guest ${i + 1}.`);
                         return false;
                     }
                 }
@@ -658,7 +647,7 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-            countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m until the day"!`;
+            countdownElement.innerHTML = `${days}d's ${hours}h's until the day!`;
 
             if (distance < 0) {
                 countdownElement.innerHTML = "The big day is here!";
@@ -795,7 +784,7 @@
                 // Create name input
                 const nameLabel = document.createElement('label');
                 nameLabel.setAttribute('for', `person_${i}_name`);
-                nameLabel.textContent = `Person ${i} Name:`;
+                nameLabel.textContent = i === 1 ? 'Your Name:' : `Guest ${i} Name:`;
                 
                 const nameInput = document.createElement('input');
                 nameInput.type = 'text';
@@ -810,7 +799,7 @@
                 // Create food preference dropdown
                 const prefLabel = document.createElement('label');
                 prefLabel.setAttribute('for', `person_${i}_food_preference`);
-                prefLabel.textContent = `Person ${i} Food Preference:`;
+                prefLabel.textContent = `${i === 1 ? 'Your' : `Guest ${i}`} Food Preference:`;
 
                 const select = document.createElement('select');
                 select.name = `person_${i}_food_preference`;
@@ -824,6 +813,7 @@
                     { value: 'Vegetarian', text: 'Vegetarian' },
                     { value: 'Gluten Free', text: 'Gluten Free' },
                     { value: 'Halal', text: 'Halal' },
+                    { value: 'Child', text: 'Child' },
                     { value: 'Other', text: 'Other - please specify' },
                     { value: 'No requirements', text: 'No requirements' }
                 ];
