@@ -330,6 +330,10 @@
         .person-other-preference {
             margin-top: 5px;
         }
+
+        .text-center {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -437,6 +441,7 @@
                     <span class="carousel-indicator"></span>
                     <span class="carousel-indicator"></span>
                     <span class="carousel-indicator"></span>
+
                 </div>
             </div>
         </div>
@@ -472,18 +477,36 @@
         </div>
 
         <div class="section">
-            <h2>Wedding Details</h2>
+            <h2 class="text-center">Wedding Details</h2>
             <div class="info-grid">
-                <div class="info-item">
+                <div class="info-item text-center">
                     <h3>Wedding Day Schedule</h3>
-                    <ul>
+                    <ul class="text-center" style="list-style-position: inside;">
                         <li>2:30 PM - Arrival</li>
+                        <br>
                         <li>3:00 PM - Ceremony Begins</li>
+                        <br>
                         <li>5:00 PM - Dinner</li>
+                        <br>
                         <li>7:30 PM - Ceilidh</li>
+                        <br>
                         <li>9:30 PM - Disco</li>
+                        <br>
                         <li>12:00 PM - Time for bed</li>
                     </ul>
+                </div>
+                <div class="info-item text-center">
+                    <h3>Gifts and Contributions</h3>
+                    <p>We will be so happy for you to be with us to celebrate our marriage, in fact you might say that your presence is the best... gift ... you can give! (if only we were any good at puns...!)</p>
+                    <br>
+                    <p>If you REALLY can't bear the thought of not being parted with some of your money, then please feel free to contribute to our honeymoon and we will gratefully enjoy a nice cocktail or taco in Mexico! Muchas gracias 🌮</p>
+                    <br>
+                    <p>To contribute, please follow these steps:</p>
+                    <ol class="text-center" style="list-style-position: inside;">
+                        <li>Visit our <a href="https://www.trailfinders.com/wishlist#/" target="_blank" rel="noopener noreferrer">Trailfinders Wishlist</a></li>
+                        <li>Use the surname: Lambert</li>
+                        <li>Enter the reference: 5BMQC3</li>
+                    </ol>
                 </div>
             </div>
         </div>
@@ -495,10 +518,20 @@
         </div>
 
         <div class="section">
-            <h2>James & Liz Recommend</h2>
-            <p>Many of you will know Oxford all too well but for first time visitors here are some places we love:</p>
+            <h2 class="text-center">James & Liz Recommend</h2>
+            <p class="text-center">Many of you will know Oxford all too well but for first time visitors here are some places we love:</p>
             
             <style>
+                .recommendations {
+                    text-align: center;
+                }
+                .recommendations ul, .recommendations ol {
+                    list-style-position: inside;
+                    padding-left: 0;
+                }
+                .recommendations h3 {
+                    margin-top: 20px;
+                }
                 .recommendations a {
                     text-decoration: underline;
                 }
